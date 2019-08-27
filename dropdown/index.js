@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import "./index.css";
 
 class DropDown extends Component {
     constructor(props) {
@@ -7,17 +8,24 @@ class DropDown extends Component {
         this.state = {
             isOpen: false,
             translateValue: 0,
-            placementValue: this.props.PlacementValue
+            placementValue: this.props.placementValue
         }
+
     }
 
     static propTypes = {
         element: PropTypes.any,
-        children: PropTypes.any
+        children: PropTypes.any,
+        containerClass: PropTypes.string,
+        elementClass: PropTypes.string,
+        dropDownClass: PropTypes.string,
     }
 
     static defaultProps = {
-        PlacementValue: "bottom-end"
+        placementValue: "bottom-end",
+        containerClass: "custom-drop-down",
+        elementClass: "custom-drop-down__elem",
+        dropDownClass: "custom-drop-down__content"
     }
 
     componentDidUpdate() {
@@ -38,6 +46,12 @@ class DropDown extends Component {
             return;
         }
 
+        this.setState({
+            isOpen: false
+        });
+    }
+
+    closeInSide = () => {
         this.setState({
             isOpen: false
         });
@@ -71,18 +85,32 @@ class DropDown extends Component {
         }
     }
 
+    getChildrensFunc = (children) => {
+        if (!children) {
+            return null;
+        }
+
+        const filterChildren = children.map((c, i) => {
+            if (c && c.props && c.props.clickinside === "true") {
+                c = <span className="clickInSide" onClick={this.closeInSide}>{c}</span>
+            }
+
+            return <Fragment key={i}>{c}</Fragment>;
+        });
+
+        return filterChildren;
+    }
+
     render() {
         const { isOpen, placementValue, translateValue } = this.state;
-        const { element, children } = this.props;
-        const drodownClassName = "custom-drop-down";
-        const elemClassName = "custom-drop-down__elem";
-        const classValue = isOpen ? "custom-drop-down__content show" : "custom-drop-down__content";
+        const { element, children, containerClass, elementClass, dropDownClass } = this.props;
+        const dropDownClassName = isOpen ? `${dropDownClass} show` : dropDownClass;
         const styles = { transform: `translateY(${translateValue}px)` };
 
         return (
-            <span ref={(n) => { this.elem = n; }} className={drodownClassName}>
-                <span className={elemClassName} onClick={this.setPlacement}>{element}</span>
-                <div className={classValue} placement={placementValue} style={styles}>{children}</div>
+            <span ref={(n) => { this.elem = n; }} className={containerClass}>
+                <span className={elementClass} onClick={this.setPlacement}>{element}</span>
+                <div className={dropDownClassName} placement={placementValue} style={styles}>{this.getChildrensFunc(children)}</div>
             </span>
         );
     }
