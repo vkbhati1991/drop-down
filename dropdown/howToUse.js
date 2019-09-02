@@ -10,6 +10,8 @@ function HowToUse() {
                 containerClass="custom-drop-down"
                 elementClass="custom-drop-down__elem"
                 dropDownClass="custom-drop-down__content"
+                placement="left"
+                width={200}
             >
                 Modernizr runs quickly on page load to detect features;
                 it then creates a JavaScript object with the results,

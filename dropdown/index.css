@@ -51,3 +51,33 @@ span.custom-drop-down__elem {
     cursor: pointer;
     margin: 10px 0;
 }
+.custom-drop-down {
+    position: fixed;
+}
+.dropdownbox {
+    width: 100px;
+    margin: 220px 0 0 300px;
+}
+
+.custom-drop-down {
+    position: fixed;
+    background: #8BC34A;
+    color: #fff;
+    padding: 20px;
+    font-family: cursive;
+    line-height: 25px;
+}
+
+span.custom-drop-down__elem {
+    width: 100%;
+    display: block;
+    border: 0;
+    text-align: center;
+    background: #CDDC39;
+    color: #000;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 10px;
+    display: block;
+    cursor: pointer;
+}
